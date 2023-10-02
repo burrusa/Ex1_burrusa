@@ -1,0 +1,67 @@
+---
+title: "Exercise 1.B"
+author: "burrusa"
+format: html
+editor: visual
+---
+
+## Necessary libraries
+
+```{r}
+library(ggplot2)
+```
+
+## 1. Sampling data
+
+```{r}
+set.seed(123) #For reproducibility
+sampled_data <- rlnorm(n = 100, meanlog = 5, sdlog = 0.5)
+```
+
+Note: I assumed that the values for meanlog and sdlog where the ones given in the exercise sheet (mu=5, sd=0.5).
+
+## 2. Visualization
+
+### 2.a Linear scale
+
+```{r}
+data_df <- data.frame(Values = sampled_data)
+histogram_linear <- ggplot(data_df, aes(x = Values)) +
+  geom_histogram(binwidth = 0.2, fill = "red", color = "black") +
+  labs(title = "Histogram (Linear Scale)", x = "Values", y = "Frequency")
+print(histogram_linear)
+
+```
+
+Note: I transformed my sampled data into a dataframe to work with ggplot2.
+
+### 2.b Log scale
+
+```{r}
+histogram_log <- ggplot(data_df, aes(x = Values)) +
+  geom_histogram(binwidth = 0.2, fill = "light blue", color = "black") +
+  scale_x_log10() +
+  labs(title = "Histogram (Log Scale)", x = "Log Values", y = "Frequency")
+print(histogram_log)
+
+
+```
+
+-   **`scale_x_log10()`**: This function is used to transform the x-axis to a logarithmic scale. It makes the values on the x-axis appear on logarithm units (base 10).
+
+### 2.c Violin plot
+
+```{r}
+violin_plot <- ggplot(data_df, aes(x="", y = Values)) +
+  geom_violin(fill = "pink", color = "black") +
+  labs(title = "Violin Plot", x = "", y = "Values")
+print(violin_plot)
+```
+
+## 3. Mean and SD of sample
+
+The mean of the 100 randomly sampled values is `r mean(data_df$Value)` and the standard deviation is `r sd(data_df$Value)`
+
+## Steps of the exercise
+
+In the first section I sampled 100 datapoints using the **rlnorm** function, I used a seed for reproducibility. In the second section, I visualized the sampled data using histograms, first of all in a linear scale and secondly in a log scale (using the function **`scale_x_log10()`**). Additionally, I did a violin plot. In the third part I reported the mean and standard-deviation of the sampled data in line in text.
